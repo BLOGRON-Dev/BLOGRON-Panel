@@ -1,0 +1,59 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.22'
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Build backend
+        working-directory: ./backend
+        run: |
+          go mod tidy
+          GOOS=linux GOARCH=amd64 go build -o ../dist/blogron-linux-amd64 .
+
+      - name: Build frontend
+        working-directory: ./frontend
+        run: |
+          npm install
+          npm run build
+
+      - name: Package release
+        run: |
+          mkdir -p release
+          cp -r backend frontend install.sh uninstall.sh README.md release/
+          cp dist/blogron-linux-amd64 release/backend/
+          tar -czf blogron-panel-${{ github.ref_name }}.tar.gz release/
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: blogron-panel-${{ github.ref_name }}.tar.gz
+          generate_release_notes: true
+          body: |
+            ## BLOGRON Panel ${{ github.ref_name }}
+
+            ### Installation
+            ```bash
+            wget https://github.com/BLOGRON-Dev/BLOGRON-Panel/releases/download/${{ github.ref_name }}/blogron-panel-${{ github.ref_name }}.tar.gz
+            tar -xzf blogron-panel-${{ github.ref_name }}.tar.gz
+            cd release && sudo bash install.sh
+            ```

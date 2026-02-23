@@ -1,0 +1,67 @@
+# /etc/sudoers.d/blogron
+#
+# This file grants the 'blogron' system user the specific sudo rights
+# needed by the Go backend — and NOTHING else.
+#
+# Install:
+#   sudo cp blogron.sudoers /etc/sudoers.d/blogron
+#   sudo chmod 440 /etc/sudoers.d/blogron
+#   sudo visudo -c   # validate before applying
+#
+# NEVER use NOPASSWD: ALL — that grants full root access.
+
+Cmnd_Alias PANEL_USER = \
+    /usr/sbin/useradd, \
+    /usr/sbin/userdel, \
+    /usr/sbin/usermod, \
+    /usr/sbin/chpasswd
+
+Cmnd_Alias PANEL_NGINX = \
+    /usr/sbin/nginx, \
+    /bin/ln -s /etc/nginx/sites-available/* /etc/nginx/sites-enabled/*, \
+    /bin/rm /etc/nginx/sites-enabled/*, \
+    /bin/mkdir -p /var/www/*, \
+    /bin/chown www-data\:www-data /var/www/*
+
+Cmnd_Alias PANEL_SERVICES = \
+    /bin/systemctl start nginx, \
+    /bin/systemctl stop nginx, \
+    /bin/systemctl reload nginx, \
+    /bin/systemctl restart nginx, \
+    /bin/systemctl start mysql, \
+    /bin/systemctl stop mysql, \
+    /bin/systemctl restart mysql, \
+    /bin/systemctl start sshd, \
+    /bin/systemctl stop sshd, \
+    /bin/systemctl restart sshd, \
+    /bin/systemctl start fail2ban, \
+    /bin/systemctl stop fail2ban, \
+    /bin/systemctl restart fail2ban, \
+    /bin/systemctl start postfix, \
+    /bin/systemctl stop postfix, \
+    /bin/systemctl restart postfix, \
+    /bin/systemctl show *
+
+Cmnd_Alias PANEL_CERTBOT = \
+    /usr/bin/certbot
+
+Cmnd_Alias PANEL_SYSTEM = \
+    /bin/df, \
+    /bin/free, \
+    /bin/journalctl, \
+    /usr/bin/journalctl
+
+Cmnd_Alias PANEL_FILES = \
+    /bin/mkdir, \
+    /bin/rm, \
+    /bin/mv, \
+    /bin/chmod, \
+    /bin/chown
+
+blogron ALL=(ALL) NOPASSWD: \
+    PANEL_USER, \
+    PANEL_NGINX, \
+    PANEL_SERVICES, \
+    PANEL_CERTBOT, \
+    PANEL_SYSTEM, \
+    PANEL_FILES
