@@ -1,0 +1,44 @@
+[Unit]
+Description=BLOGRON Panel Go API
+After=network.target mariadb.service nginx.service
+Wants=mariadb.service nginx.service
+
+[Service]
+Type=simple
+User=blogron
+Group=blogron
+WorkingDirectory=/opt/blogron
+
+# Binary path
+ExecStart=/opt/blogron/blogron
+
+# Environment — these are populated by install.sh; replace if deploying manually
+Environment="PORT=8080"
+Environment="JWT_SECRET=replace-with-a-long-random-secret"
+Environment="MYSQL_USER=root"
+Environment="MYSQL_PASSWORD=your-mariadb-root-password"
+Environment="ADMIN_USER=admin"
+Environment="ADMIN_PASSWORD=changeme"
+
+# Security hardening
+NoNewPrivileges=false        # Must be false so sudo can work
+PrivateTmp=true
+ProtectSystem=full
+ReadWritePaths=/etc/nginx/sites-available /etc/nginx/sites-enabled /var/www \
+               /etc/bind/zones /etc/bind/named.conf.local \
+               /etc/postfix /etc/dovecot /var/mail/vhosts \
+               /var/spool/cron/crontabs /etc/vsftpd.userlist
+
+# Restart policy
+Restart=on-failure
+RestartSec=5s
+StartLimitInterval=60s
+StartLimitBurst=3
+
+# Logging
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=blogron
+
+[Install]
+WantedBy=multi-user.target

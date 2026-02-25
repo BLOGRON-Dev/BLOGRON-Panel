@@ -1,0 +1,37 @@
+# Go
+/backend/blogron
+/backend/*.exe
+/backend/vendor/
+*.test
+*.out
+go.sum
+
+# Node / Frontend
+/frontend/node_modules/
+/frontend/dist/
+/frontend/.env.local
+/frontend/.env.production
+/frontend/.env.*.local
+
+# Build artifacts
+/dist/
+*.tar.gz
+*.zip
+
+# OS
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+
+# IDE
+.vscode/
+.idea/
+*.iml
+
+# Secrets — NEVER commit these
+*.pem
+*.key
+*.env
+.env
+config/admin.json
