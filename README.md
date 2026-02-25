@@ -1,7 +1,7 @@
 # BLOGRON Panel
 
 <p align="center">
-  <img src="https://img.shields.io/badge/version-1.0.0-cyan?style=for-the-badge" />
+  <img src="https://img.shields.io/badge/version-1.0.6-cyan?style=for-the-badge" />
   <img src="https://img.shields.io/badge/go-1.22-blue?style=for-the-badge&logo=go" />
   <img src="https://img.shields.io/badge/react-18-61DAFB?style=for-the-badge&logo=react" />
   <img src="https://img.shields.io/badge/license-MIT-green?style=for-the-badge" />
