@@ -36,8 +36,8 @@
 > Requires: Ubuntu 22.04 / 24.04 or Debian 11 / 12
 
 ```bash
-curl -s https://api.github.com/repos/BLOGRON-Dev/BLOGRON-Panel/releases/latest | grep "browser_download_url" | cut -d '"' -f 4 | wget -qi -
-tar -xzf BLOGRON-Panel-*.tar.gz
+curl -s https://api.github.com/repos/BLOGRON-Dev/BLOGRON-Panel/releases/latest | grep "browser_download_url" | cut -d '"' -f 4 | wget -qi - && \
+tar -xzf BLOGRON-Panel-*.tar.gz && \
 sudo bash install.sh
 ```
 
