@@ -36,9 +36,9 @@
 > Requires: Ubuntu 22.04 / 24.04 or Debian 11 / 12
 
 ```bash
-wget https://github.com/BLOGRON-Dev/BLOGRON-Panel/releases/latest/download/blogron-panel-latest.tar.gz
-tar -xzf blogron-panel-latest.tar.gz
-cd release && sudo bash install.sh
+curl -s https://api.github.com/repos/BLOGRON-Dev/BLOGRON-Panel/releases/latest | grep "browser_download_url" | cut -d '"' -f 4 | wget -qi -
+tar -xzf BLOGRON-Panel-*.tar.gz
+sudo bash install.sh
 ```
 
 The installer handles everything: Go, Node.js, Nginx, MySQL, BIND9, Postfix, Dovecot, vsftpd, fail2ban, UFW, and optional SSL via Let's Encrypt.
